@@ -28,7 +28,9 @@ namespace ECommerceAPI.Services
         }
 
         public async Task<ProductListResponseDto> GetAllProductsAsync(
-            int pageNumber, int pageSize)
+            int pageNumber,
+            int pageSize,
+            int? categoryId = null)
         {
             if (pageNumber < 1)
             {
@@ -47,9 +49,11 @@ namespace ECommerceAPI.Services
 
             int skip = (pageNumber - 1) * pageSize;
 
-            var products = await _productRepository.GetProductsAsync(skip, pageSize);
+            var products = await _productRepository.GetProductsAsync(
+                skip, pageSize, categoryId);
 
-            int totalRecords = await _productRepository.GetTotalProductsCountAsync();
+            int totalRecords = await _productRepository.GetTotalProductsCountAsync(
+                categoryId);
 
             int totalPages = (int)Math.Ceiling(
                 (double)totalRecords / pageSize);
@@ -86,7 +90,8 @@ namespace ECommerceAPI.Services
         }
 
         public async Task<ProductResponseDto?> UpdateProductAsync(
-            int productId, UpdateProductDto productDto)
+            int productId,
+            UpdateProductDto productDto)
         {
             var product = await _productRepository.GetProductByIdAsync(productId);
 

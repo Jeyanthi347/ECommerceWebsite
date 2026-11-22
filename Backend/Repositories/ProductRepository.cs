@@ -21,18 +21,37 @@ namespace ECommerceAPI.Repositories
                 .FirstOrDefaultAsync(p => p.ProductId == productId);
         }
 
-        public async Task<List<Product>> GetProductsAsync(int skip, int take)
+        public async Task<List<Product>> GetProductsAsync(
+            int skip,
+            int take,
+            int? categoryId = null)
         {
-            return await _context.Products
+            var query = _context.Products.AsQueryable();
+
+            // Filter products by category when categoryId is provided.
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            return await query
                 .OrderBy(p => p.ProductId)
                 .Skip(skip)
                 .Take(take)
                 .ToListAsync();
         }
 
-        public async Task<int> GetTotalProductsCountAsync()
+        public async Task<int> GetTotalProductsCountAsync(
+            int? categoryId = null)
         {
-            return await _context.Products.CountAsync();
+            var query = _context.Products.AsQueryable();
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            return await query.CountAsync();
         }
 
         public async Task<Product> AddProductAsync(Product product)

@@ -7,9 +7,13 @@ namespace ECommerceAPI.Repositories.Interfaces
     {
         Task<Product?> GetProductByIdAsync(int productId);
 
-        Task<List<Product>> GetProductsAsync(int skip, int take);
+        Task<List<Product>> GetProductsAsync(
+            int skip,
+            int take,
+            int? categoryId = null);
 
-        Task<int> GetTotalProductsCountAsync();
+        Task<int> GetTotalProductsCountAsync(
+            int? categoryId = null);
 
         Task<Product> AddProductAsync(Product product);
 

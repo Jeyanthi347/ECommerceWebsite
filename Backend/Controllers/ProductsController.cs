@@ -17,15 +17,18 @@ namespace ECommerceAPI.Controllers
             _productService = productService;
         }
 
-        // GET: api/Products?pageNumber=1&pageSize=10
+        // GET: api/Products?pageNumber=1&pageSize=10&categoryId=1
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllProducts(
             [FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = 10)
+            [FromQuery] int pageSize = 10,
+            [FromQuery] int? categoryId = null)
         {
             var products = await _productService.GetAllProductsAsync(
-                pageNumber, pageSize);
+                pageNumber,
+                pageSize,
+                categoryId);
 
             return Ok(products);
         }
