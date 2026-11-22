@@ -1,0 +1,19 @@
+
+# Angular
+Frontend/node_modules/
+Frontend/.angular/
+Frontend/dist/
+Frontend/coverage/
+
+# .NET
+Backend/bin/
+Backend/obj/
+Backend/.vs/
+Backend/*.user
+Backend/*.suo
+
+# IDE and OS
+.vscode/
+.vs/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,35 @@
+
+.login-background {
+  background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 15px;
+}
+
+.shop-icon {
+  font-size: 55px;
+  color: #0d6efd;
+}
+
+.form-control,
+.input-group-text {
+  padding: 12px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #0d6efd;
+}
+
+.btn-primary {
+  padding: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.btn-primary:hover {
+  background-color: #084298;
+}
