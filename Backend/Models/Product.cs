@@ -19,6 +19,8 @@ namespace ECommerceAPI.Models
 
         public int CategoryId { get; set; }
 
+        public Category Category { get; set; } = null!;
+
         public bool IsActive { get; set; } = true;
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
@@ -26,3 +28,4 @@ namespace ECommerceAPI.Models
         public DateTime? UpdatedAt { get; set; }
     }
 }
+
