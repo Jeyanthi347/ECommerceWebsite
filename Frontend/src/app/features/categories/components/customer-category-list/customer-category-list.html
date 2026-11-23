@@ -1,0 +1,143 @@
+
+<div class="container-fluid py-4">
+
+  <!-- Page Heading -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Shop by Category</h2>
+      <p class="text-muted mb-0">
+        Explore our collections and find products you love.
+      </p>
+    </div>
+
+    <span class="badge bg-dark fs-6">
+      {{ totalRecords }} Categories
+    </span>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 text-muted">Loading categories...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage && !isLoading" class="alert alert-danger">
+    {{ errorMessage }}
+
+    <button
+      class="btn btn-sm btn-outline-danger ms-3"
+      (click)="loadCategories()">
+      Retry
+    </button>
+  </div>
+
+  <!-- Category Grid -->
+  <div class="row g-4" *ngIf="!isLoading && !errorMessage">
+
+    <div
+      class="col-12 col-sm-6 col-md-4 col-lg-3"
+      *ngFor="let category of categories">
+
+      <div class="card category-card h-100 border-0 shadow-sm">
+
+        <!-- Category Image -->
+        <div class="category-image-container">
+
+          <img
+            *ngIf="category.imageUrl; else noImage"
+            [src]="category.imageUrl"
+            [alt]="category.categoryName"
+            class="category-image"
+          />
+
+          <ng-template #noImage>
+            <div class="no-image">
+              <i class="bi bi-grid"></i>
+              <span>Image not available</span>
+            </div>
+          </ng-template>
+
+        </div>
+
+        <!-- Category Details -->
+        <div class="card-body d-flex flex-column">
+
+          <h5 class="card-title fw-bold">
+            {{ category.categoryName }}
+          </h5>
+
+          <p class="text-muted small description">
+            {{ category.description || 'Explore this collection.' }}
+          </p>
+
+          <div class="mt-auto">
+
+            <p class="small text-muted mb-3">
+              <i class="bi bi-box-seam"></i>
+              {{ category.productCount }}
+              Products
+            </p>
+
+            <button
+              type="button"
+              class="btn btn-dark w-100"
+              [routerLink]="['/products']"
+              [queryParams]="{ categoryId: category.categoryId }">
+
+              <i class="bi bi-arrow-right"></i>
+              Explore Category
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Empty Categories -->
+  <div
+    *ngIf="!isLoading && !errorMessage && categories.length === 0"
+    class="text-center py-5">
+
+    <i class="bi bi-grid display-3 text-muted"></i>
+
+    <h4 class="mt-3">No Categories Available</h4>
+
+    <p class="text-muted">
+      Categories will appear here when they are added.
+    </p>
+
+  </div>
+
+  <!-- Pagination -->
+  <div
+    *ngIf="!isLoading && totalPages > 1"
+    class="d-flex justify-content-center align-items-center gap-3 mt-5">
+
+    <button
+      class="btn btn-outline-dark"
+      (click)="previousPage()"
+      [disabled]="pageNumber === 1">
+      Previous
+    </button>
+
+    <span class="fw-semibold">
+      Page {{ pageNumber }} of {{ totalPages }}
+    </span>
+
+    <button
+      class="btn btn-outline-dark"
+      (click)="nextPage()"
+      [disabled]="pageNumber === totalPages">
+      Next
+    </button>
+
+  </div>
+
+</div>

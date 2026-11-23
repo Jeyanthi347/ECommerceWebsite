@@ -1,0 +1,221 @@
+
+<div class="container-fluid py-4">
+
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Category Management</h2>
+      <p class="text-muted mb-0">Manage your store categories</p>
+    </div>
+
+    <button class="btn btn-primary" (click)="openAddForm()">
+      <i class="bi bi-plus-lg me-2"></i>
+      Add Category
+    </button>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Add Category Form -->
+  <div class="card border-0 shadow-sm mb-4" *ngIf="showAddForm">
+
+    <div class="card-header bg-white py-3">
+      <h5 class="fw-bold mb-0">Add New Category</h5>
+    </div>
+
+    <div class="card-body">
+
+      <form (ngSubmit)="addCategory()" #categoryForm="ngForm">
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Category Name</label>
+
+          <input
+            type="text"
+            class="form-control"
+            name="categoryName"
+            [(ngModel)]="newCategory.categoryName"
+            placeholder="Example: Laptops"
+            required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Description</label>
+
+          <textarea
+            class="form-control"
+            name="description"
+            [(ngModel)]="newCategory.description"
+            rows="3"
+            placeholder="Enter category description"
+            required>
+          </textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Category Image URL</label>
+
+          <input
+            type="url"
+            class="form-control"
+            name="imageUrl"
+            [(ngModel)]="newCategory.imageUrl"
+            placeholder="https://example.com/image.jpg"
+            required>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="categoryForm.invalid || isSaving">
+
+            <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2"></span>
+
+            {{ isSaving ? 'Saving...' : 'Save Category' }}
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="cancelAdd()"
+            [disabled]="isSaving">
+            Cancel
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Total Categories -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <p class="text-muted mb-1">Total Categories</p>
+          <h3 class="fw-bold mb-0">{{ totalRecords }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p class="mt-2 text-muted">Loading categories...</p>
+  </div>
+
+  <!-- Category Table -->
+  <div class="card border-0 shadow-sm" *ngIf="!isLoading">
+
+    <div class="card-header bg-white py-3">
+      <h5 class="mb-0 fw-semibold">All Categories</h5>
+    </div>
+
+    <div class="table-responsive">
+
+      <table class="table table-hover align-middle mb-0">
+
+        <thead class="table-light">
+          <tr>
+            <th>Image</th>
+            <th>Category Name</th>
+            <th>Description</th>
+            <th>Products</th>
+            <th>Status</th>
+            <th>Created Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let category of categories">
+
+            <td>
+              <img
+                [src]="category.imageUrl"
+                [alt]="category.categoryName"
+                width="55"
+                height="55"
+                class="rounded object-fit-cover">
+            </td>
+
+            <td class="fw-semibold">{{ category.categoryName }}</td>
+
+            <td>{{ category.description }}</td>
+
+            <td>
+              <span class="badge bg-info text-dark">
+                {{ category.productCount }}
+              </span>
+            </td>
+
+            <td>
+              <span
+                class="badge"
+                [ngClass]="category.isActive ? 'bg-success' : 'bg-secondary'">
+                {{ category.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+
+            <td>{{ category.createdAt | date:'dd MMM yyyy' }}</td>
+
+          </tr>
+
+          <tr *ngIf="categories.length === 0">
+            <td colspan="6" class="text-center py-5 text-muted">
+              No categories found.
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="card-footer bg-white">
+
+      <div class="d-flex justify-content-between align-items-center">
+
+        <span class="text-muted">
+          Total Records: {{ totalRecords }}
+        </span>
+
+        <div>
+          <button
+            class="btn btn-outline-primary btn-sm me-2"
+            (click)="previousPage()"
+            [disabled]="pageNumber <= 1">
+            Previous
+          </button>
+
+          <span class="mx-2">
+            Page {{ pageNumber }} of {{ totalPages }}
+          </span>
+
+          <button
+            class="btn btn-outline-primary btn-sm ms-2"
+            (click)="nextPage()"
+            [disabled]="pageNumber >= totalPages">
+            Next
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
