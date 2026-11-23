@@ -1,0 +1,95 @@
+<div class="container py-5">
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p class="mt-2 text-muted">Loading product details...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage && !isLoading" class="alert alert-danger">
+    {{ errorMessage }}
+
+    <button class="btn btn-outline-danger btn-sm ms-3"
+            (click)="loadProductDetails()">
+      Retry
+    </button>
+  </div>
+
+  <!-- Product Details -->
+  <div *ngIf="product && !isLoading" class="row g-5">
+
+    <!-- Product Image -->
+    <div class="col-lg-6">
+      <div class="product-detail-image">
+        <img
+          *ngIf="product.imageUrl; else noImage"
+          [src]="product.imageUrl"
+          [alt]="product.productName"
+          class="img-fluid"
+        />
+
+        <ng-template #noImage>
+          <div class="no-image">
+            Image not available
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Product Information -->
+    <div class="col-lg-6">
+
+      <small class="text-muted text-uppercase">
+        {{ product.brand }}
+      </small>
+
+      <h1 class="fw-bold mt-2">
+        {{ product.productName }}
+      </h1>
+
+      <h3 class="text-primary fw-bold mt-3">
+        {{ product.price | currency:'INR':'symbol':'1.0-0' }}
+      </h3>
+
+      <hr>
+
+      <h5 class="fw-bold">Product Description</h5>
+
+      <p class="text-muted">
+        {{ product.description || 'No description available.' }}
+      </p>
+
+      <div class="mt-4">
+
+        <span
+          class="badge fs-6"
+          [ngClass]="product.stockQuantity > 0
+            ? 'bg-success'
+            : 'bg-danger'">
+
+          {{ product.stockQuantity > 0
+            ? 'In Stock'
+            : 'Out of Stock' }}
+
+        </span>
+
+        <p *ngIf="product.stockQuantity > 0" class="text-muted mt-2">
+          {{ product.stockQuantity }} items available
+        </p>
+
+      </div>
+
+      <hr>
+
+      <button class="btn btn-outline-dark btn-lg mt-3"
+              routerLink="/products">
+        <i class="bi bi-arrow-left"></i>
+        Back to Products
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
