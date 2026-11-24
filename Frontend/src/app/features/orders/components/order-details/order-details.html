@@ -1,0 +1,226 @@
+
+<div class="container py-5">
+
+  <!-- Back Button -->
+  <div class="mb-4">
+    <a routerLink="/my-orders" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-2"></i>
+      Back to My Orders
+    </a>
+  </div>
+
+  <!-- Page Heading -->
+  <div class="mb-4">
+    <h2 class="fw-bold">Order Details</h2>
+    <p class="text-muted">
+      View your order information and purchased products.
+    </p>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center py-5" *ngIf="isLoading">
+    <div class="spinner-border text-primary"></div>
+    <p class="mt-2">Loading order details...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="alert alert-danger" *ngIf="!isLoading && errorMessage">
+    <i class="bi bi-exclamation-circle me-2"></i>
+    {{ errorMessage }}
+
+    <button
+      class="btn btn-sm btn-outline-danger ms-3"
+      *ngIf="order"
+      (click)="loadOrderDetails(order.orderId)">
+      Try Again
+    </button>
+  </div>
+
+  <!-- Order Details -->
+  <div *ngIf="!isLoading && !errorMessage && order">
+
+    <!-- Order Summary -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body p-4">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+
+          <div>
+            <small class="text-muted">Order Number</small>
+            <h5 class="fw-bold mb-0">
+              {{ order.orderNumber }}
+            </h5>
+          </div>
+
+          <div>
+            <span
+              class="badge fs-6"
+              [ngClass]="getStatusClass(order.orderStatus)">
+              {{ getOrderStatus(order.orderStatus) }}
+            </span>
+          </div>
+
+        </div>
+
+        <hr>
+
+        <div class="row g-3">
+
+          <div class="col-md-4">
+            <small class="text-muted">Order Date</small>
+            <p class="fw-semibold mb-0">
+              {{ order.orderDate | date:'dd MMM yyyy, hh:mm a' }}
+            </p>
+          </div>
+
+          <div class="col-md-4">
+            <small class="text-muted">Order ID</small>
+            <p class="fw-semibold mb-0">
+              #{{ order.orderId }}
+            </p>
+          </div>
+
+          <div class="col-md-4">
+            <small class="text-muted">Total Amount</small>
+            <p class="fw-bold text-primary mb-0">
+              ₹{{ order.totalAmount | number:'1.2-2' }}
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Ordered Products -->
+    <div class="card shadow-sm mb-4">
+
+      <div class="card-header bg-white p-3">
+        <h5 class="fw-bold mb-0">
+          <i class="bi bi-bag-check me-2"></i>
+          Ordered Products
+        </h5>
+      </div>
+
+      <div class="card-body p-4">
+
+        <div
+          class="row align-items-center product-row py-3"
+          *ngFor="let item of order.items">
+
+          <div class="col-md-2 text-center mb-3 mb-md-0">
+
+            <img
+              [src]="item.imageUrl || 'https://placehold.co/100x100?text=Product'"
+              [alt]="item.productName"
+              class="product-image">
+
+          </div>
+
+          <div class="col-md-4 mb-3 mb-md-0">
+            <h6 class="fw-bold mb-1">
+              {{ item.productName }}
+            </h6>
+            <small class="text-muted">
+              Product ID: {{ item.productId }}
+            </small>
+          </div>
+
+          <div class="col-md-2 mb-3 mb-md-0">
+            <small class="text-muted">Unit Price</small>
+            <p class="fw-semibold mb-0">
+              ₹{{ item.unitPrice | number:'1.2-2' }}
+            </p>
+          </div>
+
+          <div class="col-md-2 mb-3 mb-md-0">
+            <small class="text-muted">Quantity</small>
+            <p class="fw-semibold mb-0">
+              {{ item.quantity }}
+            </p>
+          </div>
+
+          <div class="col-md-2">
+            <small class="text-muted">Subtotal</small>
+            <p class="fw-bold text-primary mb-0">
+              ₹{{ item.subTotal | number:'1.2-2' }}
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Delivery Information -->
+    <div class="card shadow-sm mb-4">
+
+      <div class="card-header bg-white p-3">
+        <h5 class="fw-bold mb-0">
+          <i class="bi bi-geo-alt me-2"></i>
+          Delivery Information
+        </h5>
+      </div>
+
+      <div class="card-body p-4">
+
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <small class="text-muted">Customer Name</small>
+            <p class="fw-semibold mb-0">
+              {{ order.fullName }}
+            </p>
+          </div>
+
+          <div class="col-md-6">
+            <small class="text-muted">Phone Number</small>
+            <p class="fw-semibold mb-0">
+              {{ order.phoneNumber }}
+            </p>
+          </div>
+
+          <div class="col-md-12">
+            <small class="text-muted">Delivery Address</small>
+            <p class="fw-semibold mb-0">
+              {{ order.deliveryAddress }}
+            </p>
+          </div>
+
+          <div class="col-md-6">
+            <small class="text-muted">City</small>
+            <p class="fw-semibold mb-0">
+              {{ order.city }}
+            </p>
+          </div>
+
+          <div class="col-md-6">
+            <small class="text-muted">Pincode</small>
+            <p class="fw-semibold mb-0">
+              {{ order.pincode }}
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Total -->
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="fw-bold mb-0">Order Total</h5>
+
+          <h4 class="fw-bold text-primary mb-0">
+            ₹{{ order.totalAmount | number:'1.2-2' }}
+          </h4>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

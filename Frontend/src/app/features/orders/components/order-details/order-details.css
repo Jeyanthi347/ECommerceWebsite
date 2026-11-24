@@ -1,0 +1,50 @@
+
+.product-image {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+  padding: 5px;
+  background-color: #fff;
+}
+
+.product-row {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.product-row:last-child {
+  border-bottom: none;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-header {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.badge {
+  padding: 9px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  .product-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .product-row {
+    text-align: center;
+  }
+}

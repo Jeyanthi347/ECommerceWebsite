@@ -1,0 +1,126 @@
+
+<div class="container py-5">
+
+  <!-- Page Heading -->
+  <div class="mb-4">
+    <h2 class="fw-bold">My Orders</h2>
+    <p class="text-muted">
+      Track and view all your previous purchases.
+    </p>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center py-5" *ngIf="isLoading">
+    <div class="spinner-border text-primary"></div>
+    <p class="mt-2">Loading your orders...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    <i class="bi bi-exclamation-circle me-2"></i>
+    {{ errorMessage }}
+
+    <button
+      class="btn btn-sm btn-outline-danger ms-3"
+      (click)="loadOrders()">
+      Try Again
+    </button>
+  </div>
+
+  <!-- Empty Orders -->
+  <div
+    class="text-center py-5"
+    *ngIf="!isLoading && !errorMessage && orders.length === 0">
+
+    <i class="bi bi-bag-x display-1 text-secondary"></i>
+
+    <h4 class="fw-bold mt-3">No Orders Yet</h4>
+
+    <p class="text-muted">
+      You haven't placed any orders yet.
+      Start shopping and your orders will appear here.
+    </p>
+
+    <a routerLink="/products" class="btn btn-primary mt-2">
+      <i class="bi bi-cart me-2"></i>
+      Continue Shopping
+    </a>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!isLoading && !errorMessage && orders.length > 0">
+
+    <div
+      class="card shadow-sm mb-3"
+      *ngFor="let order of orders">
+
+      <div class="card-body p-4">
+
+        <!-- Order Header -->
+        <div class="row align-items-center mb-3">
+
+          <div class="col-md-6">
+            <small class="text-muted">Order Number</small>
+            <h6 class="fw-bold mb-1">
+              {{ order.orderNumber }}
+            </h6>
+          </div>
+
+          <div class="col-md-6 text-md-end mt-3 mt-md-0">
+            <span
+              class="badge"
+              [ngClass]="getStatusClass(order.orderStatus)">
+              {{ getOrderStatus(order.orderStatus) }}
+            </span>
+          </div>
+
+        </div>
+
+        <hr>
+
+        <!-- Order Information -->
+        <div class="row g-3">
+
+          <div class="col-md-4">
+            <small class="text-muted">Order Date</small>
+            <p class="fw-semibold mb-0">
+              {{ order.orderDate | date:'dd MMM yyyy, hh:mm a' }}
+            </p>
+          </div>
+
+          <div class="col-md-4">
+            <small class="text-muted">Total Items</small>
+            <p class="fw-semibold mb-0">
+              {{ order.totalItems }}
+            </p>
+          </div>
+
+          <div class="col-md-4">
+            <small class="text-muted">Total Amount</small>
+            <p class="fw-bold text-primary mb-0">
+              ₹{{ order.totalAmount | number:'1.2-2' }}
+            </p>
+          </div>
+
+        </div>
+
+        <hr>
+
+        <!-- View Details Button -->
+        <div class="d-flex justify-content-end">
+          <a
+            [routerLink]="['/my-orders', order.orderId]"
+            class="btn btn-outline-primary">
+
+            <i class="bi bi-eye me-2"></i>
+            View Details
+
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
