@@ -1,0 +1,146 @@
+
+.dashboard-container {
+  padding: 5px;
+}
+
+.dashboard-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-heading h2 {
+  color: #172033;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.dashboard-heading p {
+  color: #7b8495;
+  margin: 0;
+  font-size: 14px;
+}
+
+.date-label {
+  background: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: #475569;
+  font-size: 13px;
+  border: 1px solid #e5e7eb;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  padding: 23px;
+  border: 1px solid #edf0f5;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card-content p {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.card-content h3 {
+  color: #172033;
+  font-size: 29px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.card-content small {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.icon-box {
+  width: 53px;
+  height: 53px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  flex-shrink: 0;
+}
+
+.icon-primary {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.icon-success {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.icon-warning {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.icon-info {
+  background: #ecfeff;
+  color: #0891b2;
+}
+
+.welcome-card {
+  background: #172033;
+  color: white;
+  border-radius: 12px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-card h4 {
+  font-size: 21px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.welcome-card p {
+  color: #cbd5e1;
+  margin: 0;
+  font-size: 14px;
+}
+
+.welcome-card > i {
+  font-size: 55px;
+  color: #60a5fa;
+}
+
+@media (max-width: 576px) {
+  .dashboard-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .welcome-card {
+    padding: 20px;
+  }
+
+  .welcome-card > i {
+    font-size: 35px;
+  }
+}

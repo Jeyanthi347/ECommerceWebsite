@@ -1,0 +1,84 @@
+
+<div class="dashboard-container">
+
+  <!-- Dashboard Heading -->
+  <div class="dashboard-heading">
+    <div>
+      <h2>Dashboard</h2>
+      <p>Welcome to your E-Commerce Admin Panel.</p>
+    </div>
+
+    <span class="date-label">
+      <i class="bi bi-calendar3"></i>
+      Admin Overview
+    </span>
+  </div>
+
+  <!-- Loading Message -->
+  <div class="alert alert-info" *ngIf="isLoading">
+    <div class="d-flex align-items-center gap-2">
+      <div class="spinner-border spinner-border-sm"></div>
+      <span>Loading dashboard statistics...</span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div class="alert alert-danger"
+       *ngIf="errorMessage">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <span>
+        <i class="bi bi-exclamation-circle me-2"></i>
+        {{ errorMessage }}
+      </span>
+
+      <button class="btn btn-outline-danger btn-sm"
+              (click)="loadDashboardStats()">
+        <i class="bi bi-arrow-clockwise me-1"></i>
+        Try Again
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Dashboard Statistics Cards -->
+  <div class="row g-4" *ngIf="!isLoading && !errorMessage">
+
+    <div class="col-xl-3 col-md-6"
+         *ngFor="let card of dashboardCards">
+
+      <div class="dashboard-card">
+
+        <div class="card-content">
+          <div>
+            <p>{{ card.title }}</p>
+            <h3>{{ card.value }}</h3>
+            <small>{{ card.description }}</small>
+          </div>
+
+          <div class="icon-box"
+               [ngClass]="'icon-' + card.color">
+            <i class="bi" [ngClass]="card.icon"></i>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Welcome Section -->
+  <div class="welcome-card mt-4">
+    <div>
+      <h4>Welcome to ShopEase!</h4>
+      <p>
+        Manage your products, categories and customers
+        from one place.
+      </p>
+    </div>
+
+    <i class="bi bi-shop"></i>
+  </div>
+
+</div>

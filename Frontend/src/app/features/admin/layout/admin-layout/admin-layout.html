@@ -1,0 +1,118 @@
+
+<div class="admin-layout">
+
+  <!-- Admin Sidebar -->
+  <aside class="sidebar">
+
+    <!-- Website Brand -->
+    <div class="brand">
+      <i class="bi bi-bag-check-fill"></i>
+      <span>ShopEase Admin</span>
+    </div>
+
+    <!-- Admin Profile -->
+    <div class="admin-profile">
+      <i class="bi bi-person-circle"></i>
+
+      <div>
+        <h6>{{ userName }}</h6>
+        <small>Administrator</small>
+      </div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-menu">
+
+      <!-- Dashboard -->
+      <a
+        routerLink="/admin/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <!-- Catalog Management -->
+      <div class="menu-heading">
+        CATALOG MANAGEMENT
+      </div>
+
+      <!-- Category Management -->
+      <a
+        routerLink="/admin/categories"
+        routerLinkActive="active">
+
+        <i class="bi bi-grid"></i>
+        <span>Category Management</span>
+      </a>
+
+      <!-- Product Management -->
+      <a
+        routerLink="/admin/products"
+        routerLinkActive="active">
+
+        <i class="bi bi-box-seam"></i>
+        <span>Product Management</span>
+      </a>
+
+      <!-- User Management -->
+      <div class="menu-heading">
+        USER MANAGEMENT
+      </div>
+
+      <!-- Customer Management -->
+      <a
+        routerLink="/admin/customers"
+        routerLinkActive="active">
+
+        <i class="bi bi-people"></i>
+        <span>Customer Management</span>
+      </a>
+
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+
+      <button
+        type="button"
+        class="logout-btn"
+        (click)="logout()">
+
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Top Navigation Bar -->
+    <header class="topbar">
+
+      <div>
+        <h5>Admin Management Panel</h5>
+      </div>
+
+      <div class="admin-label">
+        <i class="bi bi-shield-check"></i>
+        Administrator
+      </div>
+
+    </header>
+
+    <!-- Child Pages Display Here -->
+    <section class="page-content">
+
+      <router-outlet></router-outlet>
+
+    </section>
+
+  </main>
+
+</div>
