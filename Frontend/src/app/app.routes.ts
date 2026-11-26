@@ -21,6 +21,7 @@ import { Profile } from './features/profile/components/profile/profile';
 import { AdminLayoutComponent } from './features/admin/layout/admin-layout/admin-layout';
 import { AdminDashboardComponent } from './features/admin/dashboard/admin-dashboard/admin-dashboard';
 import { ProductManagementComponent } from './features/products/components/product-management/product-management';
+import { CustomerManagementComponent } from './features/admin/customers/customer-management/customer-management';
 
 // Guards
 import { adminGuard } from './features/auth/guards/admin.guard';
@@ -115,9 +116,11 @@ export const routes: Routes = [
       {
         path: 'products',
         component: ProductManagementComponent
+      },
+      {
+        path: 'customers',
+        component: CustomerManagementComponent
       }
-
-      // Customer Management route will be added after module creation.
 
     ]
   },

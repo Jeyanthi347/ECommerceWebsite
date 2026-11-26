@@ -1,0 +1,278 @@
+
+<div class="customer-management">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h2>Customer Management</h2>
+      <p>View, search and manage registered customers.</p>
+    </div>
+
+    <div class="total-customers">
+      <i class="bi bi-people-fill"></i>
+      <span>Total Customers: <strong>{{ totalRecords }}</strong></span>
+    </div>
+  </div>
+
+  <!-- Success Message -->
+  <div class="alert alert-success alert-dismissible fade show"
+       *ngIf="successMessage">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    {{ successMessage }}
+
+    <button type="button"
+            class="btn-close"
+            (click)="successMessage = ''">
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div class="alert alert-danger alert-dismissible fade show"
+       *ngIf="errorMessage">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ errorMessage }}
+
+    <button type="button"
+            class="btn-close"
+            (click)="errorMessage = ''">
+    </button>
+  </div>
+
+  <!-- Customer Details -->
+  <div class="details-card" *ngIf="selectedCustomer">
+
+    <div class="details-header">
+      <h5>
+        <i class="bi bi-person-vcard me-2"></i>
+        Customer Details
+      </h5>
+
+      <button class="btn-close"
+              type="button"
+              (click)="closeCustomerDetails()">
+      </button>
+    </div>
+
+    <div class="details-body">
+      <div class="detail-item">
+        <span>Full Name</span>
+        <strong>{{ selectedCustomer.fullName }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Email Address</span>
+        <strong>{{ selectedCustomer.email }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Phone Number</span>
+        <strong>{{ selectedCustomer.phoneNumber || 'Not provided' }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Account Status</span>
+        <span class="status-badge"
+              [ngClass]="selectedCustomer.isActive ? 'active' : 'inactive'">
+          {{ selectedCustomer.isActive ? 'Active' : 'Inactive' }}
+        </span>
+      </div>
+
+      <div class="detail-item">
+        <span>Joined Date</span>
+        <strong>{{ selectedCustomer.createdAt | date:'dd MMM yyyy, hh:mm a' }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Customer ID</span>
+        <strong class="customer-id">{{ selectedCustomer.id }}</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-card">
+    <div class="search-box">
+      <i class="bi bi-search"></i>
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by customer name or email..."
+        [(ngModel)]="searchText"
+        (keyup.enter)="searchCustomers()">
+    </div>
+
+    <button class="btn btn-primary"
+            type="button"
+            (click)="searchCustomers()">
+      <i class="bi bi-search me-1"></i>
+      Search
+    </button>
+
+    <button class="btn btn-outline-secondary"
+            type="button"
+            (click)="clearSearch()">
+      <i class="bi bi-arrow-clockwise me-1"></i>
+      Clear
+    </button>
+  </div>
+
+  <!-- Customer Table -->
+  <div class="table-card">
+
+    <div class="table-header">
+      <h5>
+        <i class="bi bi-people me-2"></i>
+        Registered Customers
+      </h5>
+
+      <span class="record-count">
+        {{ totalRecords }} records
+      </span>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-container" *ngIf="isLoading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p>Loading customers...</p>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive" *ngIf="!isLoading">
+
+      <table class="table align-middle">
+
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Customer</th>
+            <th>Email Address</th>
+            <th>Phone Number</th>
+            <th>Joined Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let customer of customers; let i = index">
+
+            <td class="serial-number">
+              {{ (pageNumber - 1) * pageSize + i + 1 }}
+            </td>
+
+            <td>
+              <div class="customer-name">
+                <div class="customer-avatar">
+                  {{ customer.fullName.charAt(0).toUpperCase() }}
+                </div>
+
+                <strong>{{ customer.fullName }}</strong>
+              </div>
+            </td>
+
+            <td>{{ customer.email }}</td>
+
+            <td>{{ customer.phoneNumber || 'N/A' }}</td>
+
+            <td>
+              {{ customer.createdAt | date:'dd MMM yyyy' }}
+            </td>
+
+            <td>
+              <span class="status-badge"
+                    [ngClass]="customer.isActive ? 'active' : 'inactive'">
+
+                <i class="bi"
+                   [ngClass]="customer.isActive ? 'bi-check-circle-fill' : 'bi-x-circle-fill'">
+                </i>
+
+                {{ customer.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+
+            <td>
+              <div class="action-buttons">
+
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  type="button"
+                  title="View Details"
+                  (click)="viewCustomer(customer)">
+                  <i class="bi bi-eye"></i>
+                </button>
+
+                <button
+                  class="btn btn-sm"
+                  [ngClass]="customer.isActive ? 'btn-outline-danger' : 'btn-outline-success'"
+                  type="button"
+                  [title]="customer.isActive ? 'Deactivate Customer' : 'Activate Customer'"
+                  (click)="toggleCustomerStatus(customer)">
+
+                  <i class="bi"
+                     [ngClass]="customer.isActive ? 'bi-person-x' : 'bi-person-check'">
+                  </i>
+
+                </button>
+
+              </div>
+            </td>
+
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="customers.length === 0">
+            <td colspan="7">
+              <div class="empty-state">
+                <i class="bi bi-people"></i>
+                <h5>No Customers Found</h5>
+                <p>No registered customers match your search.</p>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container"
+         *ngIf="!isLoading && totalRecords > 0">
+
+      <span>
+        Showing page {{ pageNumber }} of {{ totalPages }}
+      </span>
+
+      <div class="pagination-buttons">
+
+        <button
+          class="btn btn-outline-primary btn-sm"
+          type="button"
+          [disabled]="pageNumber <= 1"
+          (click)="previousPage()">
+          <i class="bi bi-chevron-left"></i>
+          Previous
+        </button>
+
+        <button
+          class="btn btn-outline-primary btn-sm"
+          type="button"
+          [disabled]="pageNumber >= totalPages"
+          (click)="nextPage()">
+          Next
+          <i class="bi bi-chevron-right"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
