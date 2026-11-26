@@ -23,16 +23,18 @@
     {{ errorMessage }}
   </div>
 
-  <!-- Add Product Form -->
+  <!-- Add / Edit Product Form -->
   <div class="card border-0 shadow-sm mb-4" *ngIf="showAddForm">
 
     <div class="card-header bg-white py-3">
-      <h5 class="fw-bold mb-0">Add New Product</h5>
+      <h5 class="fw-bold mb-0">
+        {{ isEditMode ? 'Edit Product' : 'Add New Product' }}
+      </h5>
     </div>
 
     <div class="card-body">
 
-      <form (ngSubmit)="addProduct()" #productForm="ngForm">
+      <form (ngSubmit)="saveProduct()" #productForm="ngForm">
 
         <div class="row">
 
@@ -150,7 +152,9 @@
               class="spinner-border spinner-border-sm me-2">
             </span>
 
-            {{ isSaving ? 'Saving...' : 'Save Product' }}
+            {{ isSaving
+              ? 'Saving...'
+              : (isEditMode ? 'Update Product' : 'Save Product') }}
 
           </button>
 
@@ -211,6 +215,7 @@
             <th>Price</th>
             <th>Stock</th>
             <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
@@ -218,6 +223,7 @@
 
           <tr *ngFor="let product of products">
 
+            <!-- Image -->
             <td>
               <img
                 *ngIf="product.imageUrl"
@@ -232,16 +238,26 @@
               </span>
             </td>
 
-            <td class="fw-semibold">{{ product.productName }}</td>
+            <!-- Product Name -->
+            <td class="fw-semibold">
+              {{ product.productName }}
+            </td>
 
+            <!-- Brand -->
             <td>{{ product.brand || '-' }}</td>
 
+            <!-- Category -->
             <td>{{ product.categoryName || '-' }}</td>
 
-            <td>{{ product.price | currency:'INR':'symbol':'1.2-2' }}</td>
+            <!-- Price -->
+            <td>
+              {{ product.price | currency:'INR':'symbol':'1.2-2' }}
+            </td>
 
+            <!-- Stock -->
             <td>{{ product.stockQuantity }}</td>
 
+            <!-- Status -->
             <td>
               <span
                 class="badge"
@@ -250,10 +266,50 @@
               </span>
             </td>
 
+            <!-- Actions -->
+            <td>
+              <div class="d-flex gap-2">
+
+                <!-- Edit Button -->
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="openEditForm(product)"
+                  title="Edit Product">
+                  <i class="bi bi-pencil-square"></i>
+                  Edit
+                </button>
+
+                <!-- Delete Button -->
+                <button
+                  class="btn btn-sm btn-outline-danger"
+                  (click)="deleteProduct(product)"
+                  [disabled]="deletingProductId === product.productId"
+                  title="Delete Product">
+
+                  <span
+                    *ngIf="deletingProductId === product.productId"
+                    class="spinner-border spinner-border-sm me-1">
+                  </span>
+
+                  <i
+                    *ngIf="deletingProductId !== product.productId"
+                    class="bi bi-trash">
+                  </i>
+
+                  {{ deletingProductId === product.productId
+                    ? 'Deleting...'
+                    : 'Delete' }}
+
+                </button>
+
+              </div>
+            </td>
+
           </tr>
 
+          <!-- Empty State -->
           <tr *ngIf="products.length === 0">
-            <td colspan="7" class="text-center py-5 text-muted">
+            <td colspan="8" class="text-center py-5 text-muted">
               <i class="bi bi-inbox fs-1 d-block mb-2"></i>
               No products found.
             </td>
