@@ -133,6 +133,13 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
+// Customer
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+// Admin
+builder.Services.AddScoped<IAdminService, AdminService>();
+
 // Helpers
 builder.Services.AddScoped<JwtHelper>();
 
